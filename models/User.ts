@@ -1,13 +1,13 @@
 import { Document, model, Schema } from 'mongoose';
 
-interface IUser extends Document {
+export interface IUser extends Document {
   uid: string,
   name: string,
   surname: string,
   password: string,
   email: string,
   role: string,
-  resources: []
+  subject: [],
 }
 
 const UserSchema: Schema = new Schema({
@@ -29,14 +29,15 @@ const UserSchema: Schema = new Schema({
     unique: true
   },
   role: {
-    type: String
+    type: String,
+    require: true,
+    default: 'User_Role',
+    enum: ['User_Role', 'Teacher_Role']
   },
-  resources: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Resource'
-    }
-  ]
+  subject: {
+    type: Schema.Types.ObjectId,
+    ref: 'Subject'
+  }
 });
 
 UserSchema.method('toJSON', function () {
@@ -45,4 +46,4 @@ UserSchema.method('toJSON', function () {
   return object;
 });
 
-module.exports = model<IUser>('user', UserSchema);
+module.exports = model<IUser>('User', UserSchema);
