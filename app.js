@@ -15,7 +15,6 @@ app.use(express.json());
 
 //set the routes
 app.use('/api/user', require('./routes/user'));
-
 app.use('/api/resource', require('./routes/resource'));
 
 app.listen(process.env.PORT, () => {
