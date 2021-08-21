@@ -1,4 +1,4 @@
-const { response } = require('express');
+import { response } from 'express';
 
 const createUser = async (req, res = response) => {
   await res.status(200).json({
@@ -28,7 +28,7 @@ const removeUser = async (req, res = response) => {
   });
 };
 
-module.exports = {
+export {
   createUser,
   getUsers,
   updateUser,

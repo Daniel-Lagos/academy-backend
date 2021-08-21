@@ -22,7 +22,7 @@ const removeResource = async (req, res = response) => {
   });
 };
 
-module.exports = {
+export {
   getResource,
   updateResource,
   removeResource
