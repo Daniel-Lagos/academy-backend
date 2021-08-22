@@ -4,7 +4,7 @@ import {
   getResource, removeResource, updateResource
 } from '../controllers/resource.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', [], getResource);
 

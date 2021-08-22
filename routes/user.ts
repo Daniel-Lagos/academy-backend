@@ -4,7 +4,7 @@ import {
   createUser, getUsers, removeUser, updateUser
 } from '../controllers/user.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.post('/', [], createUser);
 

@@ -17,4 +17,4 @@ const ResourceSchema = new Schema({
   }
 });
 
-module.exports = model<IResource>('Resource', ResourceSchema);
+export default model<IResource>('Resource', ResourceSchema);

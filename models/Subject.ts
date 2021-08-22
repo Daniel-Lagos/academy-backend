@@ -18,4 +18,4 @@ SubjectSchema.method('toJSON', function () {
   return object;
 });
 
-module.exports = model<ISubject>('subject', SubjectSchema);
+export default model<ISubject>('subject', SubjectSchema);

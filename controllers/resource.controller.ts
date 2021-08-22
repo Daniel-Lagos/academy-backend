@@ -1,13 +1,13 @@
 import { response } from 'express';
 
-const updateResource = async (req, res = response) => {
+export const updateResource = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'Upload Resource'
   });
 };
 
-const getResource = async (req, res = response) => {
+export const getResource = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'get Resource'
@@ -15,15 +15,9 @@ const getResource = async (req, res = response) => {
 };
 
 
-const removeResource = async (req, res = response) => {
+export const removeResource = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'Remove Resource'
   });
-};
-
-export {
-  getResource,
-  updateResource,
-  removeResource
 };
