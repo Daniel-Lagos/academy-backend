@@ -1,20 +1,27 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const route = require('./routes/auth')
+
+const dbConnection = require('./database/config');
 
 const app = express();
 
+dbConnection()
+  .then()
+  .catch();
+
 app.use(cors());
 
-app.use(bodyParser.json());
+app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/auth',route);
+//set the routes
+app.use('/api/user', require('./routes/user'));
+app.use('/api/resource', require('./routes/resource'));
 
-app.listen(4000, () => {
-    console.log('Somos muy cracks ji ji ji whadafa');
+
+app.listen(process.env.PORT, () => {
+  console.log(`The sever is running in port ${process.env.PORT}`);
 });
