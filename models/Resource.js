@@ -1,10 +1,4 @@
-import { IUser } from './User';
-import { model, Schema } from 'mongoose';
-
-interface IResource extends Document {
-  name: string,
-  owner: IUser['_id']
-}
+const { model, Schema } = require('mongoose');
 
 const ResourceSchema = new Schema({
   name: {
@@ -17,4 +11,4 @@ const ResourceSchema = new Schema({
   }
 });
 
-export default model<IResource>('Resource', ResourceSchema);
+module.exports = model('Resource', ResourceSchema);

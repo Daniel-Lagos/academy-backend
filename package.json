@@ -1,15 +1,15 @@
 {
   "name": "academy-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "description": "Filter youtube information.",
+  "main": "app.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node app.ts",
-    "dev": "nodemon app.ts"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Daniel-Lagos",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,10 +19,10 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.13.7",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "tslint": "^6.1.3",
-    "typescript": "^4.3.5"
+    "tslint": "^6.1.3"
   }
 }

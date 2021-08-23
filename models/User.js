@@ -1,16 +1,6 @@
-import { Document, model, Schema } from 'mongoose';
+const { model, Schema } = require('mongoose');
 
-export interface IUser extends Document {
-  uid: string,
-  name: string,
-  surname: string,
-  password: string,
-  email: string,
-  role: string,
-  subject: [],
-}
-
-const UserSchema: Schema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     require: true
@@ -46,4 +36,4 @@ UserSchema.method('toJSON', function () {
   return object;
 });
 
-export default model<IUser>('User', UserSchema);
+module.exports = model('User', UserSchema);

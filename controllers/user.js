@@ -1,29 +1,36 @@
-import { response } from 'express';
+const { response } = require('express');
 
-export const createUser = async (req, res = response) => {
+const createUser = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'Create user'
   });
 };
 
-export const getUsers = async (req, res = response) => {
+const getUsers = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'get user'
   });
 };
 
-export const updateUser = async (req, res = response) => {
+const updateUser = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'Update user'
   });
 };
 
-export const removeUser = async (req, res = response) => {
+const removeUser = async (req, res = response) => {
   await res.status(200).json({
     success: true,
     message: 'Remove user'
   });
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+  updateUser,
+  removeUser
 };

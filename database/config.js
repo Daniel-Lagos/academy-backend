@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbConnection = async (): Promise<string> => {
+const dbConnection = async () => {
   try {
     await mongoose.connect(
       process.env.DB_CNN || '', {
@@ -9,7 +9,7 @@ const dbConnection = async (): Promise<string> => {
         useCreateIndex: true,
       },
     );
-    console.log('DB Online', 0);
+    console.log('DB Online');
     return 'DB Online';
   } catch (e) {
     console.error('Error init BD');

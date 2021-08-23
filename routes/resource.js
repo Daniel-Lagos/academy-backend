@@ -1,10 +1,10 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import {
+const {
   getResource, removeResource, updateResource
-} from '../controllers/resource.controller';
+} = require('../controllers/resource');
 
-const router: Router = Router();
+const router = Router();
 
 router.get('/', [], getResource);
 
@@ -12,4 +12,4 @@ router.post('/', [], updateResource);
 
 router.delete('/:id', [], removeResource);
 
-export default router;
+module.exports = router;
