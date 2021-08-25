@@ -1,14 +1,13 @@
 const { Router } = require('express');
 
 const {
-  getResource, removeResource, updateResource
+  updateResource,
+  removeResource
 } = require('../controllers/resource');
 
 const router = Router();
 
-router.get('/', [], getResource);
-
-router.post('/', [], updateResource);
+router.post('/', updateResource);
 
 router.delete('/:id', [], removeResource);
 
