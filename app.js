@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 //set the routes
 app.use('/api/user', require('./routes/user'));
 app.use('/api/resource', require('./routes/resource'));
+app.use('/api/auth', require('./routes/auth'));
 
 
 app.listen(process.env.PORT, () => {

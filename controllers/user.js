@@ -1,12 +1,40 @@
 const { response } = require('express');
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 
 const createUser = async (req, res = response) => {
-  await res.status(200).json({
-    success: true,
-    message: 'Create user'
-  });
+  const { email, password } = req.body;
+  try {
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({
+        success: false,
+        message: 'This user is already exists'
+      });
+    }
+
+    user = new User(req.body);
+
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(password, salt);
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      uid: user.id,
+      name: user.name
+    });
+
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      success: false,
+      message: 'Contact with admin'
+    });
+  }
 };
 
 const getUsers = async (req, res = response) => {
@@ -15,7 +43,7 @@ const getUsers = async (req, res = response) => {
 
   const users = await User.countDocuments();
 
-  res.status(400).json({
+  return res.status(400).json({
     success: true,
     users
   });
@@ -31,7 +59,7 @@ const updateUser = async (req, res = response) => {
 
   const user = await User.findByIdAndUpdate(id, rest);
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     user
   });
@@ -40,11 +68,11 @@ const updateUser = async (req, res = response) => {
 
 const removeUser = async (req, res = response) => {
   const { id } = req.params;
-  const user = await User.findByIdAndDelete(id);
+  const { password, ...rest } = await User.findByIdAndDelete(id);
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
-    user
+    rest
   });
 
 };
