@@ -16,14 +16,12 @@ router.get('/',
 
 router.put('/:id', [
     check('id', 'ID invalid').isMongoId(),
-    check('email', 'The email is incorrect').isEmail(),
-    fieldValidate
+  fieldValidate
   ],
   updateUser);
 
 router.delete('/:id', [
     check('id', 'ID invalid').isMongoId(),
-    check('email', 'The email is incorrect').isEmail(),
     fieldValidate
   ],
   removeUser);

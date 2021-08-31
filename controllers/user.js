@@ -60,13 +60,13 @@ const getUser = async (req, res = response) => {
 const updateUser = async (req, res = response) => {
   try {
     const { id } = req.params;
-    const { _id, password, email, ...rest } = req.body;
+    const { uid, password, email, ...rest } = req.body;
     if (password) {
       const salt = bcrypt.genSaltSync();
       rest.password = bcrypt.hashSync(password, salt);
     }
 
-    const user = await User.findOneAndUpdate(id, rest,
+    const user = await User.findOneAndUpdate({ _id: id }, rest,
       { new: true, useFindAndModify: false });
 
     return res.status(200).json({
@@ -85,9 +85,8 @@ const updateUser = async (req, res = response) => {
 
 const removeUser = async (req, res = response) => {
   const { id } = req.params;
-  const { password, ...rest } = await User.findByIdAndDelete(id);
-
   try {
+    const { password, ...rest } = await User.findByIdAndDelete(id);
 
     return res.status(200).json({
       success: true,
