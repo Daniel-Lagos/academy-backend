@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { response } = require('express');
 
 const User = require('../models/User');
@@ -24,7 +25,8 @@ const userLogin = async (req, res = response) => {
 
     return res.status(200).json({
       success: true,
-      user
+      name: user.name,
+      uid: user.id,
     });
 
   } catch (e) {
