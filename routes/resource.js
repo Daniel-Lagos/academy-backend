@@ -1,14 +1,15 @@
 const { Router } = require('express');
+const multer = require('multer');
+const upload = multer({ dest: './' });
 
 const {
-  getResource, removeResource, updateResource
+  updateResource,
+  removeResource
 } = require('../controllers/resource');
 
 const router = Router();
 
-router.get('/', [], getResource);
-
-router.post('/', [], updateResource);
+router.post('/', upload.array('resource', 5), updateResource);
 
 router.delete('/:id', [], removeResource);
 

@@ -18,6 +18,10 @@ router.post('/new', [
   ],
   createUser);
 
-router.post('/', userLogin);
+router.post('/', [
+  check('email', 'The email is required').isEmail(),
+  check('password', 'The password is required').notEmpty(),
+  fieldValidate
+], userLogin);
 
 module.exports = router;
