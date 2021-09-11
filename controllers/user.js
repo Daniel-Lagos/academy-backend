@@ -69,6 +69,13 @@ const updateUser = async (req, res = response) => {
     const user = await User.findOneAndUpdate({ _id: id }, rest,
       { new: true, useFindAndModify: false });
 
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'This User doesn\'t exist'
+      });
+    }
+
     return res.status(200).json({
       success: true,
       user
@@ -86,11 +93,18 @@ const updateUser = async (req, res = response) => {
 const removeUser = async (req, res = response) => {
   const { id } = req.params;
   try {
-    const { password, ...rest } = await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'This User doesn\'t exist'
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      rest
+      user
     });
   } catch (e) {
     console.log(e);
