@@ -9,7 +9,7 @@ const {
 
 const router = Router();
 
-router.post('/', upload.array('resource', 5), updateResource);
+router.post('/', upload.array('resource', 1), updateResource);
 
 router.delete('/:id', [], removeResource);
 

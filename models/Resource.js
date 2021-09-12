@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const ResourceSchema = new Schema({
-  name: {
+  url: {
     type: String,
     required: [true, 'The name is required']
   },
