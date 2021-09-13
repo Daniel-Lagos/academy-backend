@@ -21,7 +21,7 @@ const updateResource = async (req, res = response) => {
       format,
       url
     } = await cloudinary.uploader.upload(
-        files[0].originalname)
+        files[0].originalname, { folder: userId })
       .catch((e) => {
         console.log(e);
         return res.status(500).json({
