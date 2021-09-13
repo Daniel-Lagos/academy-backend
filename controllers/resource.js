@@ -2,20 +2,53 @@ const { response } = require('express');
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 
+const Resource = require('../models/Resource');
+
 const updateResource = async (req, res = response) => {
   try {
     const files = req.files || [];
+    const { userId } = req.body;
 
-    files.map(async (file) => {
+    files.map((file) => {
       fs.renameSync(file.path, file.originalname);
-      const result = await cloudinary.uploader.upload(file.originalname);
-      console.log(result);
+    });
 
+    const {
+      public_id,
+      created_at,
+      original_filename,
+      resource_type,
+      format,
+      url
+    } = await cloudinary.uploader.upload(
+        files[0].originalname)
+      .catch((e) => {
+        console.log(e);
+        return res.status(500).json({
+          success: false,
+          message: 'Contact with admin'
+        });
+      });
+
+    const resource = new Resource({
+      url,
+      format,
+      owner: userId,
+      publicId: public_id,
+      createdAt: created_at,
+      originalFilename: original_filename,
+      resourceType: resource_type
+    });
+
+    await resource.save();
+
+    files.map((file) => {
+      fs.unlinkSync(file.originalname);
     });
 
     return res.status(500).json({
       success: true,
-      message: 'upload Resource'
+      resource
     });
   } catch (e) {
     console.log(e);
