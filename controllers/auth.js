@@ -25,8 +25,11 @@ const userLogin = async (req, res = response) => {
 
     return res.status(200).json({
       success: true,
-      name: user.name,
       uid: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
     });
 
   } catch (e) {

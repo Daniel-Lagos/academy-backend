@@ -26,7 +26,10 @@ const createUser = async (req, res = response) => {
     return res.status(200).json({
       success: true,
       uid: user.id,
-      name: user.name
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
     });
 
   } catch (e) {
