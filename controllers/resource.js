@@ -9,47 +9,56 @@ const updateResource = async (req, res = response) => {
     const files = req.files || [];
     const { userId } = req.body;
 
-    files.map((file) => {
-      fs.renameSync(file.path, file.originalname);
-    });
-
-    const {
-      public_id,
-      created_at,
-      original_filename,
-      resource_type,
-      format,
-      url
-    } = await cloudinary.uploader.upload(
-        files[0].originalname, { folder: userId })
-      .catch((e) => {
-        console.log(e);
-        return res.status(500).json({
-          success: false,
-          message: 'Contact with admin'
-        });
+    if (req?.files.length > 0) {
+      files.map((file) => {
+        fs.renameSync(file.path, file.originalname);
       });
 
-    const resource = new Resource({
-      url,
-      format,
-      owner: userId,
-      publicId: public_id,
-      createdAt: created_at,
-      originalFilename: original_filename,
-      resourceType: resource_type
-    });
+      const {
+        public_id,
+        created_at,
+        original_filename,
+        resource_type,
+        format,
+        url
+      } = await cloudinary.uploader.upload(
+          files[0].originalname, { folder: userId })
+        .catch((e) => {
+          console.log(e);
+          return res.status(500).json({
+            success: false,
+            message: 'Contact with admin'
+          });
+        });
 
-    await resource.save();
+      const resource = new Resource({
+        url,
+        format,
+        owner: userId,
+        publicId: public_id,
+        createdAt: created_at,
+        originalFilename: original_filename,
+        resourceType: resource_type
+      });
 
-    files.map((file) => {
-      fs.unlinkSync(file.originalname);
-    });
+      await resource.save();
 
-    return res.status(500).json({
-      success: true,
-      resource
-    });
+      files.map((file) => {
+        fs.unlinkSync(file.originalname);
+      });
+
+      return res.status(200).json({
+        success: true,
+        resource
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: 'There aren\'t files'
+      });
+    }
+
+
   } catch (e) {
     console.log(e);
     return res.status(500).json({
