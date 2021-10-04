@@ -30,6 +30,8 @@ const createUser = async (req, res = response) => {
       surname: user.surname,
       email: user.email,
       role: user.role,
+      content: user.content,
+      multimedia: user.multimedia,
     });
 
   } catch (e) {

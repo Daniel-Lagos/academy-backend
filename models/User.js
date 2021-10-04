@@ -27,7 +27,18 @@ const UserSchema = new Schema({
   subject: {
     type: Schema.Types.ObjectId,
     ref: 'Subject'
-  }
+  },
+  multimedia: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Resource'
+    }
+  ],
+  content: [
+    {
+      type: String
+    }
+  ]
 });
 
 UserSchema.method('toJSON', function () {

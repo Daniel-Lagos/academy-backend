@@ -4,12 +4,18 @@ const upload = multer({ dest: './' });
 
 const {
   updateResource,
-  removeResource
+  removeResource,
+  getResources,
+  getUserResources
 } = require('../controllers/resource');
 
 const router = Router();
 
 router.post('/', upload.array('resource', 5), updateResource);
+
+router.get('/', [], getResources);
+
+router.get('/user', [], getUserResources);
 
 router.delete('/:id', [], removeResource);
 
