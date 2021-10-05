@@ -23,7 +23,8 @@ const updateResource = async (req, res = response) => {
         format,
         url
       } = await cloudinary.uploader.upload(
-          files[0].originalname, { folder: userId })
+          files[0].originalname, { folder: userId, resource_type: 'video' })
+        .then()
         .catch((e) => {
           console.log(e);
           return res.status(500).json({
@@ -31,7 +32,6 @@ const updateResource = async (req, res = response) => {
             message: 'Contact with admin'
           });
         });
-
       const resource = new Resource({
         url,
         format,
@@ -42,23 +42,22 @@ const updateResource = async (req, res = response) => {
         resourceType: resource_type
       });
 
-      let user = await User.findOneAndUpdate({ _id: userId }, {
+      const user = await User.findOneAndUpdate({ _id: userId }, {
         $push: {
           'content': url,
           'multimedia': resource._id
         }
-      }, { new: true, useFindAndModify: false });
-
-      await user.save();
-      await resource.save();
+      }, { new: true, useFindAndModify: true });
 
       files.map((file) => {
         fs.unlinkSync(file.originalname);
       });
+
+
       return res.status(200).json({
         success: true,
         resource,
-        uid: user.id,
+        userId,
         name: user.name,
         surname: user.surname,
         email: user.email,
@@ -66,7 +65,11 @@ const updateResource = async (req, res = response) => {
         content: user.content,
         multimedia: user.multimedia,
       });
+
     } else {
+      files.map((file) => {
+        fs.unlinkSync(file.originalname);
+      });
       return res.status(500).json({
         success: false,
         message: 'There aren\'t files'
@@ -111,31 +114,36 @@ const getResources = async (req, res = response) => {
 };
 
 const getUserResources = async (req, res = response) => {
-  // const { limit = 5, from = 0 } = req.query;
-  // const query = { status: true };
-  try {
-    const { userId } = req.body;
-    const resources = await Resource.find({ owner: userId });
-    if (resources) {
-      return res.status(200).json({
-        success: true,
-        resources
+    // const { limit = 5, from = 0 } = req.query;
+    // const query = { status: true };
+    try {
+      const { userId } = req.body;
+      const resources = await Resource.find({
+        'owner': userId
+      }, (user) => {
+        console.log(user);
       });
-    } else {
-      return res.status(400).json({
+      if (resources) {
+        return res.status(200).json({
+          success: true,
+          resources
+        });
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: 'There isn\'t resource with it owner'
+        });
+      }
+
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({
         success: false,
-        message: 'There isn\'t resource with it owner'
+        message: 'Contact with admin'
       });
     }
-
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({
-      success: false,
-      message: 'Contact with admin'
-    });
   }
-};
+;
 
 module.exports = {
   updateResource,
