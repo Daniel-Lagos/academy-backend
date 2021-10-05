@@ -49,6 +49,11 @@ const updateResource = async (req, res = response) => {
         }
       }, { new: true, useFindAndModify: true });
 
+      if (user || url) {
+        await user.save();
+        await resource.save();
+      }
+
       files.map((file) => {
         fs.unlinkSync(file.originalname);
       });
